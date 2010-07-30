@@ -13,7 +13,7 @@
 --
 -- In a pattern context, antiquotations use the same syntax.
 
-module Language.Haskell.Exts.QQ (hs, dec) where
+module Language.Haskell.Exts.QQ (hs, hsMode, dec, decMode) where
 
 import qualified Language.Haskell.Exts as Hs
 import qualified Language.Haskell.Exts.Translate as Hs
