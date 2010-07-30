@@ -28,7 +28,8 @@ import Data.List (intercalate)
 hs = hsMode Hs.defaultParseMode{Hs.extensions = Hs.knownExtensions}
 hsMode mode = QuasiQuoter { quoteExp = Hs.parseExpWithMode mode
                                          `project` antiquoteExp
-                          , quotePat = Hs.parsePat `project` antiquotePat
+                          , quotePat = Hs.parsePatWithMode mode
+                                         `project` antiquotePat
 #if defined(__GLASGOW_HASKELL__) && __GLASGOW_HASKELL__ >= 613
                           , quoteType = error "Unimplemented."
                           , quoteDec = error "Unimplemented."
@@ -39,7 +40,8 @@ hsMode mode = QuasiQuoter { quoteExp = Hs.parseExpWithMode mode
 dec = decMode Hs.defaultParseMode{Hs.extensions = Hs.knownExtensions}
 decMode mode = QuasiQuoter { quoteExp = Hs.parseDeclWithMode mode
                                           `project` antiquoteExp
-                           , quotePat = Hs.parsePat `project` antiquotePat
+                           , quotePat = Hs.parsePatWithMode mode
+                                          `project` antiquotePat
 #if defined(__GLASGOW_HASKELL__) && __GLASGOW_HASKELL__ >= 613
                            , quoteType = error "Unimplemented."
                            , quoteDec = error "Unimplemented."
