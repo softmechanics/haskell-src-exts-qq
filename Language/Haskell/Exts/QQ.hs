@@ -25,26 +25,26 @@ import Data.List (intercalate)
 
 
 -- | A quasiquoter for expressions.
-hs = QuasiQuoter { quoteExp = Hs.parseExpWithMode
-                              Hs.defaultParseMode{Hs.extensions = Hs.knownExtensions}
-                                    `project` antiquoteExp
-                 , quotePat = Hs.parsePat `project` antiquotePat
+hs = hsMode Hs.defaultParseMode{Hs.extensions = Hs.knownExtensions}
+hsMode mode = QuasiQuoter { quoteExp = Hs.parseExpWithMode mode
+                                         `project` antiquoteExp
+                          , quotePat = Hs.parsePat `project` antiquotePat
 #if defined(__GLASGOW_HASKELL__) && __GLASGOW_HASKELL__ >= 613
-                 , quoteType = error "Unimplemented."
-                 , quoteDec = error "Unimplemented."
+                          , quoteType = error "Unimplemented."
+                          , quoteDec = error "Unimplemented."
 #endif
-                 }
+                          }
 
 -- | A quasiquoter for top-level declarations.
-dec = QuasiQuoter { quoteExp = Hs.parseDeclWithMode
-                               Hs.defaultParseMode{Hs.extensions = Hs.knownExtensions}
-                                     `project` antiquoteExp
-                  , quotePat = Hs.parsePat `project` antiquotePat
+dec = decMode Hs.defaultParseMode{Hs.extensions = Hs.knownExtensions}
+decMode mode = QuasiQuoter { quoteExp = Hs.parseDeclWithMode mode
+                                          `project` antiquoteExp
+                           , quotePat = Hs.parsePat `project` antiquotePat
 #if defined(__GLASGOW_HASKELL__) && __GLASGOW_HASKELL__ >= 613
-                  , quoteType = error "Unimplemented."
-                  , quoteDec = error "Unimplemented."
+                           , quoteType = error "Unimplemented."
+                           , quoteDec = error "Unimplemented."
 #endif
-                  }
+                           }
 
 project f k s = case f s of
                   Hs.ParseOk x -> k x
